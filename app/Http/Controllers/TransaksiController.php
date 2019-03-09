@@ -123,6 +123,7 @@ class TransaksiController extends Controller
      */
     public function createTransaksiOut()
     {
+        $this->data['activeMenu']   = ['transaksi','transaksiout'];
         $this->data['setPageTitle'] = 'Halaman Tambah Dompet Keluar';
 
         $dompet     = Dompet::whereHas('dompetStatus',function($query){
@@ -174,6 +175,61 @@ class TransaksiController extends Controller
         //
     }
 
+    public function laporan()
+    {
+        $this->data['setPageTitle'] = 'Halaman Laporan Transaksi';
+        $dompet     = Dompet::whereHas('dompetStatus',function($query){
+            $query->where('nama','Aktif');
+        })->get();
+
+        $kategori   = Kategori::whereHas('kategoriStatus',function($query){
+            $query->where('nama','Aktif');
+        })->get();
+        $this->data['activeMenu']   = ['laporan','laporan'];
+
+        return view('transaksi.laporan')        
+        ->with('dompet',$dompet)
+        ->with('data',$this->data)
+        ->with('kategori',$kategori);
+    }
+
+    public function laporanresult(Request $request)
+    {
+        $this->data['setPageTitle'] = 'Halaman Laporan Transaksi (Result)';
+        $this->data['activeMenu']   = ['laporan','laporan'];
+        $transaksi          = Transaksi::query();
+        $transaksiResult    = $this->search($request,$transaksi);
+        
+        return view('transaksi.laporan_result')
+        ->with('transaksiResult',$transaksiResult->get())
+        ->with('data',$this->data);
+    }
+
+    public function search($request,$transaksi)
+    {
+        if($request->dompet == 'semuaDompet'){
+            $transaksi = $transaksi->where('dompet_id',$request->dompet);
+        }
+
+        if($request->kategori == 'semuaKategori'){
+            $transaksi = $transaksi->where('kategori_id',$request->kategori);
+        }
+
+        if($request->tanggal_awal!=null||$request->tanggal_akhir!=null){               
+            if($request->tanggal_awal == $request->tanggal_akhir){            
+                $transaksi = $transaksi->whereDate('date',date('Y-m-d',strtotime($request->tanggal_awal)));   
+            }else if($request->tanggal_awal!=null&&$request->tanggal_akhir!=null){            
+                $transaksi = $transaksi->whereBetween('date',[date('Y-m-d',strtotime($request->tanggal_awal)),date('Y-m-d',strtotime($request->tanggal_akhir))]);   
+            }else if($request->tanggal_awal!=null&&$request->tanggal_akhir==null){                
+                $transaksi = $transaksi->orWhereDate('date',date('Y-m-d',strtotime($request->tanggal_awal)));                   
+            }else if($request->tanggal_akhir!=null&&$request->tanggal_awal==null){                
+                $transaksi = $transaksi->orWhereDate('date',date('Y-m-d',strtotime($request->tanggal_akhir)));                   
+            }                       
+        }      
+
+        return $transaksi;
+    }
+
     public function kode($act)
     {
         $transaksi  = Transaksi::orderBy('id', 'DESC')->first();
@@ -202,5 +258,6 @@ class TransaksiController extends Controller
         
         return $code;
     }
+    
 
 }

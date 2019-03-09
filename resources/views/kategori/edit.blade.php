@@ -103,7 +103,7 @@
 
 @section('close_html')
     <script src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}" type="text/javascript"></script>
-    {{-- {!! JsValidator::formRequest('App\Http\Requests\Kategoris\UpdateKategoriFormRequest', '#my-form'); !!} --}}
+    {!! JsValidator::formRequest('App\Http\Requests\Kategoris\UpdateKategoriFormRequest', '#my-form'); !!}
 @endsection
 
 @section('add_script')

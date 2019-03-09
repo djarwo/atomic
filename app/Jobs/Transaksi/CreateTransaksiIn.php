@@ -29,7 +29,7 @@ class CreateTransaksiIn
         $transaksiStatus                = TransaksiStatus::where('nama','Masuk')->first();
         $transaksi                      = new Transaksi;
         $transaksi->code                = $this->request->kode;        
-        $transaksi->deskripsi           = $this->request->deskripsi;
+        $transaksi->deskripsi           = $this->request->deskripsi == '' ? '-' : $this->request->deskripsi;
         $transaksi->date                = date('Y-m-d');
         $transaksi->nilai               = $this->request->nilai;
         $transaksi->dompet_id           = $this->request->dompet_id;

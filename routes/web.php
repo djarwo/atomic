@@ -49,10 +49,12 @@ Route::prefix('/transaksi')->group(function () {
     Route::get('transaksiin', 'TransaksiController@transaksiin')->name('transaksiin.index');
     Route::get('transaksiout', 'TransaksiController@transaksiout')->name('transaksiout.index');
 
-    Route::get('laporan', 'TransaksiController@laporan')->name('transaksi.laporan');
+	Route::get('laporan', 'TransaksiController@laporan')->name('transaksi.laporan');
+	
 	Route::get('createTransaksiOut', 'TransaksiController@createTransaksiOut')->name('transaksiout.create');    
 	Route::get('createTransaksiIn', 'TransaksiController@createTransaksiIn')->name('transaksiin.create');    
 	
+	Route::post('laporan/result', 'TransaksiController@laporanresult')->name('transaksi.laporanresult');
 	Route::post('storeTransaksiIn', 'TransaksiController@storeTransaksiIn')->name('transaksiin.store');
 	Route::get('{transaksi}', 'TransaksiController@showTransaksiIn')->name('transaksiin.show');	
 

@@ -23,10 +23,10 @@
                                 <a title="Kembali" class="btn btn-circle btn-icon-only btn-default" href="{{ url()->previous() }}">
                                     <i class="fa fa-chevron-left"></i>
                                 </a>
-                                <a title="Print Transaksi" class="btn btn-circle btn-icon-only btn-default" href="#" id="printallAll" onclick="">
+                                <a title="Print Transaksi" class="btn btn-circle btn-icon-only btn-default" href="#" onclick="printmultiple(this,event,'transaksi')">
                                     <i class="fa fa-print"></i>
                                 </a>
-                                <a title="Download Transasi" class="btn btn-circle btn-icon-only btn-default" href="#" id="printallAll" onclick="">
+                                <a title="Download Transasi" class="btn btn-circle btn-icon-only btn-default" onclick="">
                                     <i class="fa fa-download"></i>
                                 </a>
                             </div>
@@ -53,6 +53,7 @@
                                     @forelse($transaksiResult as $key => $result)                           
                                         <tr>
                                             <td class="text-center" width="5%">{{++$key}}</td>
+                                            <input type="hidden" id="{{$result->id}}" class="cek" name="cek[]">
                                             <td>{{date('Y-m-d',strtotime($result->date))}}</td>                                            
                                             <td>{{$result->code}}</td>
                                             <td>{{$result->deskripsi}}</td>
@@ -137,5 +138,16 @@
             } );
         } );
         
+        function printmultiple(param, e,table){
+            e.preventDefault();
+            var indek=[];
+            var i=0;
+            $(".cek" ).each(function() {            
+                indek.push(this.id);
+                i++                            
+            });
+            window.open("{{url('')}}/"+table+"/multipleprint/"+indek);
+    	  }
+
   </script>
 @endsection

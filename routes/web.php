@@ -50,6 +50,7 @@ Route::prefix('/transaksi')->group(function () {
     Route::get('transaksiout', 'TransaksiController@transaksiout')->name('transaksiout.index');
 
 	Route::get('laporan', 'TransaksiController@laporan')->name('transaksi.laporan');
+	Route::get('multipleprint/{param}', 'TransaksiController@multipleprint')->name('transaksi.multipleprint');
 	
 	Route::get('createTransaksiOut', 'TransaksiController@createTransaksiOut')->name('transaksiout.create');    
 	Route::get('createTransaksiIn', 'TransaksiController@createTransaksiIn')->name('transaksiin.create');    

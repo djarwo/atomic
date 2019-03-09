@@ -230,6 +230,20 @@ class TransaksiController extends Controller
         return $transaksi;
     }
 
+    public function multipleprint($param)
+    {
+        $transaksi                        = Transaksi::query();
+        $id_multi                         = explode(',', $param);
+
+        foreach ($id_multi as $key => $value) {
+            $transaksi                    = $transaksi->orWhere('id',$value);
+        }
+        $dataTransaksi                    = $transaksi->get();
+
+        return view('transaksi.print')
+        ->with('dataTransaksi',$dataTransaksi);
+    }
+
     public function kode($act)
     {
         $transaksi  = Transaksi::orderBy('id', 'DESC')->first();

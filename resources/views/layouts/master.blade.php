@@ -3,7 +3,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Atomic</title>
+        <title>Atomic | {{ $data['setPageTitle'] == '' ? '' : $data['setPageTitle']}}</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta content="Preview page of Metronic Admin Theme #1 for statistics, charts, recent events and reports" name="description" />
@@ -38,8 +38,7 @@
         <link href="{{asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet" type="text/css" />    
         <!-- END THEME LAYOUT STYLES -->
         {{--<link rel="shortcut icon" href="favicon.ico" />--}}
-        @yield('css')
-
+        @yield('css')        
         <script>
             window.Laravel = {!! json_encode([
                 'csrfToken' => csrf_token(),
@@ -48,7 +47,7 @@
       </head>
     <!-- END HEAD -->
 
-    <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-content-white}">
+    <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-content-white">
       @include('layouts.header')
          <div class="clearfix"> </div>
           <div id="loader" style="border-radius:50%;"></div>

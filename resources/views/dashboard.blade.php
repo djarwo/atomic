@@ -8,16 +8,16 @@
     <div class="page-bar">
         <ul class="page-breadcrumb">
             <li>
-                <a href="index.html">Induk</a>
+            <a href="{{route('dashboard.index')}}">Induk</a>
                 <i class="fa fa-circle"></i>
             </li>
             <li>
-                <span>Beranda</span>
+                <span>Dashboard</span>
             </li>
         </ul>
     </div>
-    <h1 class="page-title"> Beranda Admin
-        <small>statistik, grafik, laporan dan acara belakangan ini</small>
+    <h1 class="page-title"> Dashboard Admin Atom
+        <small>Data Dompet, Kategori, dan Transaksi</small>
     </h1>
 
 </div>
@@ -29,7 +29,7 @@
 
 <!-- BEGIN FOOTER -->
 <div class="page-footer">
-    <div class="page-footer-inner"> 2018 &copy; Powered By Twiscode
+    <div class="page-footer-inner"> 2019 &copy; Powered By Djarwo Eko Prasojo
     </div>
     <div class="scroll-to-top">
         <i class="icon-arrow-up"></i>

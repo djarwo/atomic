@@ -3,9 +3,10 @@
     <div class="page-header-inner ">
         <!-- BEGIN LOGO -->
         <div class="page-logo">            
-            <div class="menu-toggler sidebar-toggler">
-                <span></span>
-            </div>
+                <a href="{{ route('dashboard.index') }}"><span><h4 style="margin:15px 0px 15px 0px;"><b>Dompet Djarwo</b></h4></span></a>
+                <div class="menu-toggler sidebar-toggler">
+                    <span></span>
+                </div>
         </div>
         <!-- END LOGO -->
         <!-- BEGIN RESPONSIVE MENU TOGGLER -->

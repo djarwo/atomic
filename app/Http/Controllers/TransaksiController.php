@@ -6,6 +6,13 @@ use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');                     
+        $this->data['setPageTitle'] = '';
+        $this->data['activeMenu']   = ['transaksi','transaksiin'];
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +20,22 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        //
+        $this->data['setPageTitle'] = 'Halaman Transaksi';
+        return view('transaksi.index')->with('data',$this->data);
+    }
+
+    public function transaksiin()
+    {
+        $this->data['activeMenu']   = ['transaksi','transaksiin'];
+        $this->data['setPageTitle'] = 'Halaman Transaksi';
+        return view('transaksi.transaksiin')->with('data',$this->data);
+    }
+
+    public function transaksiout()
+    {
+        $this->data['activeMenu']   = ['transaksi','transaksiout'];
+        $this->data['setPageTitle'] = 'Halaman Transaksi';
+        return view('transaksi.transaksiout')->with('data',$this->data);
     }
 
     /**

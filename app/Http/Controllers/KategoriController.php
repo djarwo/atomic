@@ -6,14 +6,21 @@ use Illuminate\Http\Request;
 
 class KategoriController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');             
+        $this->data['activeMenu']   = ['master','kategori'];
+        $this->data['setPageTitle'] = '';
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    {        
+        $this->data['setPageTitle'] = 'Halaman Kategori';
+        return view('kategori.index')->with('data',$this->data);
     }
 
     /**

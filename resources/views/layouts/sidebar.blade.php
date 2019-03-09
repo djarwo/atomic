@@ -1,7 +1,4 @@
 <div class="page-sidebar-wrapper page-sidebar-fixed">
-    <!-- BEGIN SIDEBAR -->
-    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
-    <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
     <div class="page-sidebar navbar-collapse collapse">
                     
         <ul id="myUL" class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true"
@@ -19,13 +16,61 @@
 
             <li class="heading">                
                 <h3 class="uppercase">Menu</h3>                
-            </li>
-            <li id="nav-li" class="nav-item {{ in_array('dashboard', ['dashboard']) ? 'active' : '' }}">
+            </li>            
+            <li id="nav-li" class="nav-item {{ in_array('dashboard', $data['activeMenu']) ? 'active' : '' }}">
                 <a href="{{ url('dashboard.index') }}" class="nav-link nav-toggle">
                     <i class="icon-home"></i>
-                    <span class="title">Beranda</span>
+                    <span class="title">Dashboard</span>
                     <span class="selected"></span>
                 </a>
+            </li>   
+
+            <li id="nav-li" class="nav-item {{ in_array('master', $data['activeMenu']) ? 'active' : '' }}">
+                <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="fa fa-puzzle-piece"></i>
+                    <span class="title">Master</span>
+                    <span class="selected"></span>
+                    <span class="arrow {{ in_array('master', $data['activeMenu']) ? 'open' : '' }}"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li id="nav-li" class="nav-item {{ in_array('dompet', $data['activeMenu']) ? 'active' : '' }}">
+                        <a href="{{ route('dompet.index') }}" class="nav-link "> Dompet </a>
+                    </li>
+                    <li id="nav-li" class="nav-item {{ in_array('kategori', $data['activeMenu']) ? 'active' : '' }}">
+                        <a href="{{ route('kategori.index') }}" class="nav-link "> Kategori </a>
+                    </li>                        
+                </ul>
+            </li>
+
+            <li id="nav-li" class="nav-item {{ in_array('transaksi', $data['activeMenu']) ? 'active' : '' }}">
+                <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span class="title">Master</span>
+                    <span class="selected"></span>
+                    <span class="arrow {{ in_array('transaksi', $data['activeMenu']) ? 'open' : '' }}"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li id="nav-li" class="nav-item {{ in_array('transaksiin', $data['activeMenu']) ? 'active' : '' }}">
+                        <a href="{{ route('transaksiin.index') }}" class="nav-link "> Dompet Masuk </a>
+                    </li>
+                    <li id="nav-li" class="nav-item {{ in_array('transaksiout', $data['activeMenu']) ? 'active' : '' }}">
+                        <a href="{{ route('transaksiout.index') }}" class="nav-link "> Dompet Keluar </a>
+                    </li>                        
+                </ul>
+            </li>
+
+            <li id="nav-li" class="nav-item {{ in_array('laporan', $data['activeMenu']) ? 'active' : '' }}">
+                <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="fa fa-file"></i>
+                    <span class="title">Master</span>
+                    <span class="selected"></span>
+                    <span class="arrow {{ in_array('laporan', $data['activeMenu']) ? 'open' : '' }}"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li id="nav-li" class="nav-item {{ in_array('laporan', $data['activeMenu']) ? 'active' : '' }}">
+                        <a href="{{ route('transaksi.laporan') }}" class="nav-link "> Laporan Transaksi</a>
+                    </li>                                       
+                </ul>
             </li>            
         </ul>
     </div>

@@ -35,7 +35,9 @@ Route::prefix('/dompet')->group(function () {
 Route::prefix('/kategori')->group(function () {
 	Route::get('', 'KategoriController@index')->name('kategori.index');
 	Route::get('create', 'KategoriController@create')->name('kategori.create');
-	Route::post('store', 'KategoriController@store')->name('kategori.store');
+    Route::post('store', 'KategoriController@store')->name('kategori.store');
+    Route::get('active/{kategori}', 'KategoriController@active')->name('kategori.active');
+    Route::get('nonactive/{kategori}', 'KategoriController@nonactive')->name('kategori.nonactive');
 	Route::get('{kategori}', 'KategoriController@show')->name('kategori.show');
 	Route::get('edit/{kategori}', 'KategoriController@edit')->name('kategori.edit');
 	Route::post('update/{kategori}', 'KategoriController@update')->name('kategori.update');

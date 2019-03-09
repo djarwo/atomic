@@ -9,6 +9,8 @@ use App\DompetStatus;
 use Illuminate\Http\Request;
 use App\Jobs\Dompet\CreateDompet;
 use App\Jobs\Dompet\UpdateDompet;
+use App\Jobs\Dompet\ActiveDompet;
+use App\Jobs\Dompet\NonActiveDompet;
 use Illuminate\Support\Facades\View;
 use App\Http\Requests\Dompets\CreateDompetFormRequest;
 use App\Http\Requests\Dompets\UpdateDompetFormRequest;
@@ -83,9 +85,14 @@ class DompetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Dompet $dompet)
     {
-        //
+        $this->data['setPageTitle'] = 'Halaman Detail Dompet';
+        
+        $dompet = Dompet::with('dompetStatus')->where('id',$dompet->id)->first();
+        return view('dompet.detail')
+        ->with('data',$this->data)
+        ->with('dompet',$dompet);
     }
 
     /**
@@ -96,7 +103,7 @@ class DompetController extends Controller
      */
     public function edit(Dompet $dompet)
     {
-        $this->data['setPageTitle'] = 'Halaman Tambah Dompet';
+        $this->data['setPageTitle'] = 'Halaman Edit Dompet';
         
         $dompetStatus = DompetStatus::all();
         $dompet = Dompet::findOrfail($dompet->id);
@@ -147,7 +154,16 @@ class DompetController extends Controller
      */
     public function active(Dompet $dompet)
     {
-        //
+        try {
+            $this->dispatch(new ActiveDompet($dompet));
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
+
+        return response()->json([
+            'message'                   => 'Data berhasil diaktifkan',
+            'redirect'                  => route('dompet.index')
+        ], 200);
     }
 
     /**
@@ -158,6 +174,15 @@ class DompetController extends Controller
      */
     public function nonactive(Dompet $dompet)
     {
-        //
+        try {
+            $this->dispatch(new NonActiveDompet($dompet));
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
+
+        return response()->json([
+            'message'                   => 'Data berhasil dinon-aktifkan',
+            'redirect'                  => route('dompet.index')
+        ], 200);
     }
 }

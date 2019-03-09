@@ -1,9 +1,9 @@
 <?php
-namespace App\Http\Requests\Dompets;
+namespace App\Http\Requests\Kategoris;
  
 use Illuminate\Foundation\Http\FormRequest;
  
-class UpdateDompetFormRequest extends FormRequest
+class UpdateKategoriFormRequest extends FormRequest
 {
     public function authorize()
     {
@@ -13,8 +13,7 @@ class UpdateDompetFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama'          => 'required|unique:dompet,nama,'.$this->route('dompet')->id,
-            'referensi'     => 'required',
+            'nama'          => 'required|unique:kategori,nama,'.$this->route('kategori')->id,            
             'deskripsi'     => 'required|max:100',
             'status'        => 'required'
         ];
@@ -32,8 +31,7 @@ class UpdateDompetFormRequest extends FormRequest
     public function attributes()
     {
         return [
-            'nama'          => 'Nama Dompet',
-            'referensi'     => 'Referensi',
+            'nama'          => 'Nama Kategori',            
             'deskripsi'     => 'Deskripsi',
             'status'        => 'Status Dompet'
         ];

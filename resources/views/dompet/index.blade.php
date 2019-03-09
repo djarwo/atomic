@@ -57,6 +57,11 @@
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
 
+                                                <a href="{{ route('dompet.show',$dompet->id) }}"
+                                                    class="btn btn-outline btn-circle blue btn-sm blue" title="Edit">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+
                                                 @if($dompet->dompetStatus()->first()->nama == 'Tidak Aktif')
                                                     <a href="javascript:void(0)"
                                                         data-url="{{ route('dompet.active', $dompet->id) }}"
@@ -128,10 +133,10 @@
                 confirmButtonText: "Ya!",
                 cancelButtonText: "Tidak",
                 closeOnConfirm: false
-            }, function(){
+            }, function(){                
                 $.ajax({
                     url: _this.data().url,
-                    method: 'delete',
+                    method: 'get',
                     data: { '_token': _this.data().token },
                     success: function(response) {
                         swal({
@@ -169,7 +174,7 @@
             }, function(){
                 $.ajax({
                     url: _this.data().url,
-                    method: 'delete',
+                    method: 'get',
                     data: { '_token': _this.data().token },
                     success: function(response) {
                         swal({

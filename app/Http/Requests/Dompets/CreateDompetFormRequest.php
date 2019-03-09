@@ -32,7 +32,7 @@ class CreateDompetFormRequest extends FormRequest
     public function attributes()
     {
         return [
-            'nama'          => 'Nama',
+            'nama'          => 'Nama Dompet',
             'referensi'     => 'Referensi',
             'deskripsi'     => 'Deskripsi',
             'status'        => 'Status Dompet'

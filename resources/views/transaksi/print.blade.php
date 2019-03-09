@@ -31,32 +31,41 @@
                     </tr>
                 </thead>
                 <tbody>    
-                    <?php
+                    @php
                         $masuk  = 0;
                         $keluar = 0;  
-                        $total  = 0;                       
-                    foreach($dataTransaksi as $key => $result){ ?>                       
+                        $total  = 0;  
+                        $no     = 0;                     
+                    @endphp
+                    @forelse($dataTransaksi as $key => $result)                     
                         <tr>
-                            <td class="text-center" width="5%"><?php $key++;?></td>
-                            <td class="table_detail"><?php echo date('Y-m-d',strtotime($result->date)) ?></td>                                            
-                            <td><?php echo $result->code ?></td>
-                            <td><?php echo $result->deskripsi ?></td>
-                            <td><?php echo $result->dompet()->first()->nama ?></td>
-                            <td><?php echo $result->kategori()->first()->nama ?></td>
-                            <?php if($result->transaksiStatus()->first()->nama == 'Masuk'){ ?>
+                            <td class="text-center" width="5%">{{++$key}}</td>
+                            <td class="table_detail">{{ date('Y-m-d',strtotime($result->date))}}</td>                                            
+                            <td>{{ $result->code }}</td>
+                            <td>{{ $result->deskripsi }}</td>
+                            <td>{{ $result->dompet()->first()->nama }}</td>
+                            <td>{{ $result->kategori()->first()->nama }}</td>
+                            @if($result->transaksiStatus()->first()->nama == 'Masuk')
                                 <td style="text-align:right">(+) {{"Rp " . number_format($result->nilai,2,',','.')}}</td>
-                                <?php
+                                @php
                                     $masuk  += $result->nilai;
-                                
-                            }else{ ?>
+                                @endphp
+                            @else
                                 <td style="text-align:right">(-) {{"Rp " . number_format($result->nilai,2,',','.')}}</td>
-                                 <?php
+                                @php
                                     $keluar += $result->nilai;
-                            } ?>
+                                @endphp
+                            @endif
                             
-                        </tr>                                    
-                    <?php
-                    }
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="8" class="text-center">
+                                <h4>Data Tidak Ditemukan</h4>
+                            </td>
+                        </tr>
+                    @endforelse                                    
+                    <?php                    
                         $total = $masuk - $keluar;
                     ?>
                 </tbody>

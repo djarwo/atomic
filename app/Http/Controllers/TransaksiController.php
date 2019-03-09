@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dompet;
 use App\Kategori;
 use App\Transaksi;
+use App\TransaksiStatus;
 use Illuminate\Http\Request;
 use App\Jobs\Transaksi\CreateTransaksiIn;
 use App\Jobs\Transaksi\CreateTransaksiOut;
@@ -68,13 +69,13 @@ class TransaksiController extends Controller
 
         $dompet     = Dompet::whereHas('dompetStatus',function($query){
             $query->where('nama','Aktif');
-        })->get();
+        })->orderBy('nama','ASC')->get();
 
         $kategori   = Kategori::whereHas('kategoriStatus',function($query){
             $query->where('nama','Aktif');
-        })->get();
+        })->orderBy('nama','ASC')->get();
 
-        $kode       = $this->kode();
+        $kode       = $this->kode('In');
 
         return view('transaksi.create_transaksi_in')        
         ->with('kode',$kode)
@@ -132,7 +133,7 @@ class TransaksiController extends Controller
             $query->where('nama','Aktif');
         })->get();
 
-        $kode       = $this->kode();
+        $kode       = $this->kode('Out');
 
         return view('transaksi.create_transaksi_out')        
         ->with('kode',$kode)
@@ -173,19 +174,31 @@ class TransaksiController extends Controller
         //
     }
 
-    public function kode()
+    public function kode($act)
     {
         $transaksi  = Transaksi::orderBy('id', 'DESC')->first();
+        $transaksiStatus  = TransaksiStatus::query();
               
-        $no         = $transaksi == null ? 1 : $transaksi->id;
+        //set leng
+        $no         = $transaksi == null ? 1 : $transaksi->id + 1;
         $lenght     = strlen((string)$no);  
         $loop       = 6 - $lenght;
         $number     = null;
 
+        //get 0 digit
         for ($i=0; $i < $loop; $i++) { 
             $number = $number.'0';
         }
-        $code       = 'WIN'.$number.$no;
+
+        //set in or out code
+        if($act == 'In'){
+            $transaksiStatus = $transaksiStatus->where('nama', 'Masuk')->first();
+        }else{
+            $transaksiStatus = $transaksiStatus->where('nama', 'Keluar')->first();
+        }
+
+        $status     = $transaksiStatus->id;
+        $code       = 'WIN'.$number.$no.'-'.$status;
         
         return $code;
     }

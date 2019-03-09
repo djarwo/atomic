@@ -19,13 +19,13 @@ class CreateTransaksiTables extends Migration
             $table->string('deskripsi');
             $table->string('date');
             $table->integer('nilai');
-            $table->unsignedInteger('dompet_status_id');
-            $table->unsignedInteger('kategori_status_id');
+            $table->unsignedInteger('dompet_id');
+            $table->unsignedInteger('kategori_id');
             $table->unsignedInteger('transaksi_status_id');
             $table->timestamps();
 
-            $table->foreign('dompet_status_id')->references('id')->on('dompet_status')->onDelete('restrict');
-            $table->foreign('kategori_status_id')->references('id')->on('kategori_status')->onDelete('restrict');
+            $table->foreign('dompet_id')->references('id')->on('dompet')->onDelete('restrict');
+            $table->foreign('kategori_id')->references('id')->on('kategori')->onDelete('restrict');
             $table->foreign('transaksi_status_id')->references('id')->on('transaksi_status')->onDelete('restrict');
         });
     }

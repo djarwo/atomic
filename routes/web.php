@@ -48,11 +48,14 @@ Route::prefix('/transaksi')->group(function () {
     Route::get('', 'TransaksiController@index')->name('transaksi.index');
     Route::get('transaksiin', 'TransaksiController@transaksiin')->name('transaksiin.index');
     Route::get('transaksiout', 'TransaksiController@transaksiout')->name('transaksiout.index');
-    Route::get('create', 'TransaksiController@create')->name('transaksi.create');
+
     Route::get('laporan', 'TransaksiController@laporan')->name('transaksi.laporan');
-	Route::post('store', 'TransaksiController@store')->name('transaksi.store');
-	Route::get('{transaksi}', 'TransaksiController@show')->name('transaksi.show');
-	Route::get('edit/{transaksi}', 'TransaksiController@edit')->name('transaksi.edit');
-	Route::post('update/{transaksi}', 'TransaksiController@update')->name('transaksi.update');
-	Route::delete('{transaksi}', 'TransaksiController@destroy')->name('transaksi.destroy');
+	Route::get('createTransaksiOut', 'TransaksiController@createTransaksiOut')->name('transaksiout.create');    
+	Route::get('createTransaksiIn', 'TransaksiController@createTransaksiIn')->name('transaksiin.create');    
+	
+	Route::post('storeTransaksiIn', 'TransaksiController@storeTransaksiIn')->name('transaksiin.store');
+	Route::get('{transaksi}', 'TransaksiController@showTransaksiIn')->name('transaksiin.show');	
+
+	Route::post('storeTransaksiOut', 'TransaksiController@storeTransaksiOut')->name('transaksiout.store');
+	Route::get('{transaksi}', 'TransaksiController@showTransaksiOut')->name('transaksiout.show');
 });

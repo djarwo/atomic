@@ -2,7 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Dompet;
+use App\Kategori;
+use App\Transaksi;
 use Illuminate\Http\Request;
+use App\Jobs\Transaksi\CreateTransaksiIn;
+use App\Jobs\Transaksi\CreateTransaksiOut;
+use App\Http\Requests\Transactions\CreateTransaksiInFormRequest;
+use App\Http\Requests\Transactions\CreateTransaksiOutFormRequest;
 
 class TransaksiController extends Controller
 {
@@ -20,22 +27,34 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        $this->data['setPageTitle'] = 'Halaman Transaksi';
+        $this->data['setPageTitle'] = 'Halaman Dompet';
         return view('transaksi.index')->with('data',$this->data);
     }
 
     public function transaksiin()
     {
-        $this->data['activeMenu']   = ['transaksi','transaksiin'];
-        $this->data['setPageTitle'] = 'Halaman Transaksi';
-        return view('transaksi.transaksiin')->with('data',$this->data);
+        $this->data['setPageTitle'] = 'Halaman Dompet Masuk';
+
+        $transaksiIn = Transaksi::whereHas('transaksiStatus',function($query){
+            $query->where('nama','Masuk');
+        })->get();
+
+        return view('transaksi.transaksiin')
+        ->with('data',$this->data)
+        ->with('transaksiIn',$transaksiIn);
     }
 
     public function transaksiout()
     {
         $this->data['activeMenu']   = ['transaksi','transaksiout'];
-        $this->data['setPageTitle'] = 'Halaman Transaksi';
-        return view('transaksi.transaksiout')->with('data',$this->data);
+        $this->data['setPageTitle'] = 'Halaman Dompet Keluar';
+
+        $transaksiOut = Transaksi::whereHas('transaksiStatus',function($query){
+            $query->where('nama','Keluar');
+        })->get();
+        return view('transaksi.transaksiout')
+        ->with('data',$this->data)
+        ->with('transaksiOut',$transaksiOut);
     }
 
     /**
@@ -43,9 +62,25 @@ class TransaksiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function createTransaksiIn()
+    {        
+        $this->data['setPageTitle'] = 'Halaman Tambah Dompet Masuk';
+
+        $dompet     = Dompet::whereHas('dompetStatus',function($query){
+            $query->where('nama','Aktif');
+        })->get();
+
+        $kategori   = Kategori::whereHas('kategoriStatus',function($query){
+            $query->where('nama','Aktif');
+        })->get();
+
+        $kode       = $this->kode();
+
+        return view('transaksi.create_transaksi_in')        
+        ->with('kode',$kode)
+        ->with('dompet',$dompet)
+        ->with('data',$this->data)
+        ->with('kategori',$kategori);
     }
 
     /**
@@ -54,9 +89,19 @@ class TransaksiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeTransaksiIn(CreateTransaksiInFormRequest $request)
     {
-        //
+        try {
+            $this->dispatch(new CreateTransaksiIn($request));
+        } catch (\Exception $e) {
+            $log_code                     = 'Dompet_Masuk'.date('my').rand('000','999');
+            //$this->dispatch(new CreateErrorLog($e,$log_code));
+            return redirect()->back()->with('danger','Terjadi Kesalahan !! (Input Kembali atau Hubungi admin '.$log_code.')')
+                ->withInput();
+        }
+
+        return redirect()->route('transaksiin.index')
+        ->with('success', 'Dompet Masuk berhasil dibuat');
     }
 
     /**
@@ -65,42 +110,84 @@ class TransaksiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showTransaksiIn($id)
     {
         //
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for creating a new resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function createTransaksiOut()
     {
-        //
+        $this->data['setPageTitle'] = 'Halaman Tambah Dompet Keluar';
+
+        $dompet     = Dompet::whereHas('dompetStatus',function($query){
+            $query->where('nama','Aktif');
+        })->get();
+
+        $kategori   = Kategori::whereHas('kategoriStatus',function($query){
+            $query->where('nama','Aktif');
+        })->get();
+
+        $kode       = $this->kode();
+
+        return view('transaksi.create_transaksi_out')        
+        ->with('kode',$kode)
+        ->with('dompet',$dompet)
+        ->with('data',$this->data)
+        ->with('kategori',$kategori);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function storeTransaksiOut(CreateTransaksiOutFormRequest $request)
     {
-        //
+        try {
+            $this->dispatch(new CreateTransaksiOut($request));
+        } catch (\Exception $e) {
+            $log_code                     = 'Dompet_Keluar'.date('my').rand('000','999');
+            //$this->dispatch(new CreateErrorLog($e,$log_code));
+            return redirect()->back()->with('danger','Terjadi Kesalahan !! (Input Kembali atau Hubungi admin '.$log_code.')')
+                ->withInput();
+        }
+
+        return redirect()->route('transaksiout.index')
+        ->with('success', 'Dompet Keluar berhasil dibuat');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function showTransaksiOut($id)
     {
         //
     }
+
+    public function kode()
+    {
+        $transaksi  = Transaksi::orderBy('id', 'DESC')->first();
+              
+        $no         = $transaksi == null ? 1 : $transaksi->id;
+        $lenght     = strlen((string)$no);  
+        $loop       = 6 - $lenght;
+        $number     = null;
+
+        for ($i=0; $i < $loop; $i++) { 
+            $number = $number.'0';
+        }
+        $code       = 'WIN'.$number.$no;
+        
+        return $code;
+    }
+
 }

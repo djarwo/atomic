@@ -45,7 +45,7 @@
             <li id="nav-li" class="nav-item {{ in_array('transaksi', $data['activeMenu']) ? 'active' : '' }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="fa fa-shopping-cart"></i>
-                    <span class="title">Master</span>
+                    <span class="title">Transaksi</span>
                     <span class="selected"></span>
                     <span class="arrow {{ in_array('transaksi', $data['activeMenu']) ? 'open' : '' }}"></span>
                 </a>
@@ -62,7 +62,7 @@
             <li id="nav-li" class="nav-item {{ in_array('laporan', $data['activeMenu']) ? 'active' : '' }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="fa fa-file"></i>
-                    <span class="title">Master</span>
+                    <span class="title">Laporan</span>
                     <span class="selected"></span>
                     <span class="arrow {{ in_array('laporan', $data['activeMenu']) ? 'open' : '' }}"></span>
                 </a>

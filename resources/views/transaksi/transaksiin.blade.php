@@ -16,14 +16,14 @@
                     <div class="portlet light bordered">
                         <div class="portlet-title">
                             <div class="caption font-dark">
-                                <i class="fa fa-money"></i>
-                                <span class="caption-subject bold uppercase">Dompet</span>
+                                <i class="fa fa-shopping-cart"></i>
+                                <span class="caption-subject bold uppercase">Dompet Masuk</span>
                             </div>
-                            <div class="actions Dompet">
+                            <div class="actions Dompet Masuk">
                                 <a title="Kembali" class="btn btn-circle btn-icon-only btn-default" href="{{ url()->previous() }}">
                                     <i class="fa fa-chevron-left"></i>
                                 </a>
-                                <a title="Tambah Dompet" class="btn btn-circle btn-icon-only btn-default" href="{{ route('dompet.create') }}">
+                                <a title="Tambah Dompet Masuk" class="btn btn-circle btn-icon-only btn-default" href="{{ route('transaksiin.create') }}">
                                     <i class="fa fa-plus fa-3x"></i>
                                 </a>
                             </div>
@@ -32,25 +32,33 @@
                             <table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th width="4%">No</th>
-                                        <th>Nama</th>
-                                        <th width="14%">Tanggal</th>
-                                        <th width="34%">Keterangan</th>
-                                        <th width="10%">Debit</th>
-                                        <th width="10%">Kredit</th>
-                                        <th width="10%">Sisa</th>
+                                        <th>No</th>
+                                        <th>Tanggal</th>                                        
+                                        <th>Kode</th>
+                                        <th>Deskripsi</th>
+                                        <th>Kategori</th>
+                                        <th>Nilai</th>
+                                        <th>Dompet</th>
                                     </tr>
                                 </thead>
-                                <tbody>                               
+                                <tbody>    
+                                    @forelse($transaksiIn as $key => $transaksi)                           
+                                        <tr>
+                                            <td class="text-center" width="5%">{{++$key}}</td>
+                                            <td>{{$transaksi->date}}</td>                                            
+                                            <td>{{$transaksi->code}}</td>
+                                            <td>{{$transaksi->deskripsi}}</td>     
+                                            <td>{{$transaksi->kategori()->first()->nama}}</td>                                       
+                                            <td>(+) {{$transaksi->nilai}}</td>
+                                            <td>{{$transaksi->dompet()->first()->nama}}</td>
+                                        </tr>
+                                    @empty
                                     <tr>
-                                        <td class="text-center"></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td colspan="7" class="text-center">
+                                            <h4>Data Tidak Ditemukan</h4>
+                                        </td>
                                     </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -79,6 +87,6 @@
             $('#example').DataTable( {
                 lengthMenu: [[20, 50, 100, -1], [20, 50, 100, "ALL"]]
             } );
-        } );    
+        } );
   </script>
 @endsection

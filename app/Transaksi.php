@@ -9,21 +9,21 @@ class Transaksi extends Model
 {
     use Searchable;
 
-    protected $fillable = ['nama','kode','deskripsi','tanggal','nilai','dompet_status_id','kategori_status_id','transaksi_status_id'];
+    protected $fillable = ['nama','kode','deskripsi','tanggal','nilai','dompet_id','kategori_id','transaksi_id'];
 
     protected $table = 'transaksi';
     protected $dates = [
         'created_at', 'updated_at'
     ];
 
-    public function dompetStatus()
+    public function dompet()
     {
-        return $this->belongsTo('App\DompetStatus', 'dompet_status_id', 'id');
+        return $this->belongsTo('App\Dompet', 'dompet_id', 'id');
     }
 
-    public function kategoriStatus()
+    public function kategori()
     {
-        return $this->belongsTo('App\KategoriStatus', 'kategori_status_id', 'id');
+        return $this->belongsTo('App\Kategori', 'kategori_id', 'id');
     }
     
     public function transaksiStatus()

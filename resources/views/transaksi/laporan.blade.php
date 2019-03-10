@@ -31,7 +31,7 @@
                                                     </label>
                                                     <div class="col-md-8 {{($errors->has('tanggal_awal')? 'has-error' : '')}}">
                                                         <div class="input-group date date-picker"
-                                                            data-date-start-date="+0d" id="start-date">
+                                                            data-date-end-date="0d" id="start-date">
                                                             <input type="text" class="form-control" name="tanggal_awal" placeholder="Awal"
                                                                 value="{{ old('tanggal_awal') }}" readonly required>
                                                             <span class="input-group-btn">
@@ -52,7 +52,7 @@
                                                     </label>
                                                     <div class="col-md-8 {{($errors->has('tanggal_akhir')? 'has-error' : '')}}">
                                                         <div class="input-group date date-picker"
-                                                            data-date-start-date="+0d" id="end-date">
+                                                            data-date-end-date="0d" id="end-date">
                                                             <input type="text" class="form-control" name="tanggal_akhir" placeholder="Akhir"
                                                                 value="{{ old('tanggal_akhir') }}" readonly required>
                                                             <span class="input-group-btn">

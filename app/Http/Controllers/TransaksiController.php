@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Excel;
 use App\Dompet;
 use App\Kategori;
 use App\Transaksi;
 use App\TransaksiStatus;
 use Illuminate\Http\Request;
+use App\Exports\TransaksiExport;
 use App\Jobs\Transaksi\CreateTransaksiIn;
 use App\Jobs\Transaksi\CreateTransaksiOut;
 use App\Http\Requests\Transactions\CreateTransaksiInFormRequest;
@@ -202,7 +204,30 @@ class TransaksiController extends Controller
         
         return view('transaksi.laporan_result')
         ->with('transaksiResult',$transaksiResult->get())
-        ->with('data',$this->data);
+        ->with('data',$this->data)
+        ->with('request',$request);
+    }
+
+    public function download($param,$date)
+    {
+        $transaksi                        = Transaksi::query();
+        $id_multi                         = explode(',', $param);
+        $date_multi                       = explode(',', $date);
+
+        foreach ($id_multi as $key => $value) {
+            $transaksi                    = $transaksi->orWhere('id',$value);
+        }
+        $dataTransaksi                    = $transaksi->get();
+
+        try {
+        $excel  =   Excel::download(new TransaksiExport($dataTransaksi), "Data Transaksi ".$date_multi[0]." - ".$date_multi[1].".xls");	
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 400);
+        }
+        
+        return $excel;
     }
 
     public function search($request,$transaksi)
@@ -230,17 +255,19 @@ class TransaksiController extends Controller
         return $transaksi;
     }
 
-    public function multipleprint($param)
+    public function multipleprint($param,$date)
     {
         $transaksi                        = Transaksi::query();
         $id_multi                         = explode(',', $param);
-
+        $date_multi                       = explode(',', $date);
         foreach ($id_multi as $key => $value) {
             $transaksi                    = $transaksi->orWhere('id',$value);
         }
         $dataTransaksi                    = $transaksi->get();
-
-        return view('transaksi.print')
+        
+        return view('transaksi.print')        
+        ->with('endDate',$date_multi[1])
+        ->with('startDate',$date_multi[0])
         ->with('dataTransaksi',$dataTransaksi);
     }
 

@@ -2,23 +2,25 @@
 <table>
         <thead>
             <tr>
-                <th>Tgl Order</th>
-                <th>No. Po</th>
-                <th>Tgl Kirim</th>
-                <th>No. Invoice</th>
-                <th>Van #</th>
-                <th>Area</th>                           
+                <th>No</th>
+                <th>Tanggal</th>                                        
+                <th>Kode</th>
+                <th>Deskripsi</th>
+                <th>Dompet</th>
+                <th>Kategori</th>
+                <th>Nilai</th>                          
             </tr>
         </thead>
         <tbody>
-            @foreach($orders as $order)
+            @foreach($transaksi as $key => $data)
             <tr>            
-                <td style="width:100%;">{{date('Y-m-d',strtotime($order->date))}}</td>
-                <td>{{$order->delivery->no_po}}</td>
-                <td>{{$order->delivery == null ? '' : $order->delivery->deliver_date}}</td>
-                <td>{{$order->invoice}}</td>            
-                <td></td>
-                <td></td>            
+                <td>{{++$key}}</td>
+                <td>{{date('Y-m-d',strtotime($data->date))}}</td>
+                <td>{{$data->code}}</td>
+                <td>{{$data->deskripsi}}</td>
+                <td>{{$data->dompet()->first()->nama}}</td>            
+                <td>{{$data->kategori()->first()->nama}}</td>            
+                <td>{{"Rp " . number_format($data->nilai,2,',','.')}}</td>            
             </tr>
             @endforeach
         </tbody>

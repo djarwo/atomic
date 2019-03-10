@@ -9,6 +9,9 @@
       border: 1px solid black;
       height:  40px;
     }
+    table.transaksi > tfoot > tr > td{
+        text-align: right;
+    }
 </style>
 <script type="text/javascript">
     print();
@@ -16,6 +19,7 @@
 
 <div class="content" style="padding-top:0px;">
     <h1 style="text-align: center;">Riwayat Transaksi</h1>
+    <h3 style="text-align: center;">{{$startDate}} - {{$endDate}}</h3>
     <body style="padding-top:0px;">        
         <div class="">
             <table style="width:100%" class="transaksi">
@@ -70,8 +74,8 @@
                     ?>
                 </tbody>
                 <tfoot>
-                    <tr style="text-align:right">
-                        <td colspan="6" >
+                    <tr>
+                        <td colspan="6">
                             Total Uang Masuk
                         </td>
                         <td>
@@ -79,8 +83,8 @@
                         </td>
                     </tr>
 
-                    <tr style="text-align:right">
-                        <td colspan="6" style="text-align:right">
+                    <tr>
+                        <td colspan="6">
                             Total Uang Keluar
                         </td>
                         <td>
@@ -88,8 +92,8 @@
                         </td>
                     </tr>
 
-                    <tr style="text-align:right">
-                        <td colspan="6" style="text-align:right">
+                    <tr>
+                        <td colspan="6">
                             Total
                         </td>
                         <td>

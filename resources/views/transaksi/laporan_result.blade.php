@@ -17,16 +17,16 @@
                         <div class="portlet-title">
                             <div class="caption font-dark">
                                 <i class="fa fa-list-alt"></i>
-                                <span class="caption-subject bold uppercase">Riwayat Transaksi</span>
+                                <span class="caption-subject bold uppercase">Riwayat Transaksi <small>{{date("Y-m-d",strtotime($request->tanggal_akhir))}} - {{date("Y-m-d",strtotime($request->tanggal_akhir))}}</small></span>
                             </div>
                             <div class="actions Riwayat Transaksi">
                                 <a title="Kembali" class="btn btn-circle btn-icon-only btn-default" href="{{ url()->previous() }}">
                                     <i class="fa fa-chevron-left"></i>
                                 </a>
-                                <a title="Print Transaksi" class="btn btn-circle btn-icon-only btn-default" href="#" onclick="printmultiple(this,event,'transaksi')">
+                                <a title="Print Transaksi" class="btn btn-circle btn-icon-only btn-default" href="#" onclick="printmultiple(this,event,'transaksi','multipleprint')">
                                     <i class="fa fa-print"></i>
                                 </a>
-                                <a title="Download Transasi" class="btn btn-circle btn-icon-only btn-default" onclick="">
+                                <a title="Download Transasi" class="btn btn-circle btn-icon-only btn-default" href="#" onclick="printmultiple(this,event,'transaksi','download')">
                                     <i class="fa fa-download"></i>
                                 </a>
                             </div>
@@ -86,7 +86,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr style="text-align:right">
-                                        <td colspan="6" >
+                                        <td colspan="6" style="text-align:right">
                                             Total Uang Masuk
                                         </td>
                                         <td>
@@ -113,7 +113,9 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                        </div>
+                        </div>                        
+                        <input type="hidden" value="{{date("Y-m-d",strtotime($request->tanggal_awal))}}" name="tanggal_awal" id="{{date("Y-m-d",strtotime($request->tanggal_awal))}}" class="date">
+                        <input type="hidden" value="{{date("Y-m-d",strtotime($request->tanggal_akhir))}}" name="tanggal_akhir" id="{{date("Y-m-d",strtotime($request->tanggal_akhir))}}" class="date">                        
                     </div>
                 </div>
             </div>
@@ -138,15 +140,22 @@
             } );
         } );
         
-        function printmultiple(param, e,table){
+        function printmultiple(param, e,table, parent){
             e.preventDefault();
-            var indek=[];
-            var i=0;
+            var indek   =[];
+            var date    =[];
+            var i       =0;
+            var j       =0;
+
+            $(".date" ).each(function() { 
+                date.push(this.id);
+                j++
+            });
             $(".cek" ).each(function() {            
                 indek.push(this.id);
                 i++                            
             });
-            window.open("{{url('')}}/"+table+"/multipleprint/"+indek);
+            window.open("{{url('')}}/"+table+"/"+parent+"/"+indek+"/"+date);
     	  }
 
   </script>

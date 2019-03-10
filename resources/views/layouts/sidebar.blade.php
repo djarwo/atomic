@@ -18,7 +18,7 @@
                 <h3 class="uppercase">Menu</h3>                
             </li>            
             <li id="nav-li" class="nav-item {{ in_array('dashboard', $data['activeMenu']) ? 'active' : '' }}">
-                <a href="{{ url('dashboard.index') }}" class="nav-link nav-toggle">
+                <a href="{{ route('dashboard.index') }}" class="nav-link nav-toggle">
                     <i class="icon-home"></i>
                     <span class="title">Dashboard</span>
                     <span class="selected"></span>

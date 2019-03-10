@@ -1,6 +1,6 @@
 
 ## Run
-- Composer Update.
+- Composer Update / Install.
 - Seting Env (database, host, port, root).
 - php artisan db:seed.
 - php artisan migrate.

@@ -1,3 +1,11 @@
+
+## Run
+
+-Composer Update
+-Seting Env (database, host, port, root)
+-php artisan db:seed
+-php artisan migrate
+
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
